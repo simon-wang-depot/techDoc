@@ -1,0 +1,62 @@
+build: execute shell
+
+cd container/ingest/ingest-Docker
+cd ingest-apps
+# Build ingest app and web service Docker image with specific version
+bash -x build.sh $REPO_USER $REPO_PASSWORD $RELEASE_VERSION_APP
+
+cd ../database
+# Build ingest database Docker image with specific version
+bash -x build.sh
+
+cd ../ingest-fme
+# Build ingest fme workspace Docker image with specific version
+bash -x build.sh $REPO_USER $REPO_PASSWORD $RELEASE_VERSION_APP
+
+
+# Check Image into Docker Repo
+pwd
+#Login to Artifactory Docker Registry
+docker login -uadmin -padmin123 dendit01d.jeppesen.com:8082
+
+# Tag Docker Image
+docker tag ingest:latest dendit01d.jeppesen.com:8082/ingest/ingest:latest
+docker tag ingest-database:latest dendit01d.jeppesen.com:8082/ingest/ingest-database:latest
+docker tag ingest-fme:latest dendit01d.jeppesen.com:8082/ingest/ingest-fme:latest
+
+# Push Docker Image
+docker push dendit01d.jeppesen.com:8082/ingest/ingest:latest
+docker push dendit01d.jeppesen.com:8082/ingest/ingest-database:latest
+docker push dendit01d.jeppesen.com:8082/ingest/ingest-fme:latest
+
+########################################
+#Login to Artifactory Docker Registry
+#docker login -uadmin -pmountain dendit01d.jeppesen.com:8082
+
+# Pull CADAS Docker image
+docker pull dendit01d.jeppesen.com:8082/cadas/17.4:latest
+
+# Run New Cadas instance
+docker run -d --name cadas_latest -p 7777:8071 -p 7733:5433 dendit01d.jeppesen.com:8082/cadas/17.4:latest
+
+
+
+
+======================
+docker pull dendit01d.jeppesen.com:8082/calculator/calculator-database:latest
+docker pull dendit01d.jeppesen.com:8082/calculator/calculator-rest-api:latest
+docker pull dendit01d.jeppesen.com:8082/calculator/calculator-hmi:latest
+
+docker run -d --name calculator-db-container -p 5433:5432 dendit01d.jeppesen.com:8082/calculator/calculator-database
+docker run -d --name calculator-rest-api-container -p 8071:8071 dendit01d.jeppesen.com:8082/calculator/calculator-rest-api
+docker run -d --name calculator-hmi-container -p 8072:8072 dendit01d.jeppesen.com:8082/calculator/calculator-hmi
+
+#external:internal of container
+
+#test
+psql -h $(hostname) -p 5433 -d postgres -U postgres
+\l  #list database
+\conninfo 
+\dt calculator-module.*
+
+

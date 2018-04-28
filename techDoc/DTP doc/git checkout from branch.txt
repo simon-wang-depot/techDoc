@@ -1,0 +1,14 @@
+merge 2 projects into gitbucket master
+1. clone remote master to local
+2. copy the latest code to override local filesystem
+3. clone remote master to local again, but different folder
+. git branch -a #list all branch in remote server
+4. git checkout featurebranch
+5. git branch #find the current branch
+
+
+=====
+. build workflow best practise
+. create a general pipeline to build / deploy on different branches
+. how to paramatize the jenkinsfile location from master or feature branches
+. 

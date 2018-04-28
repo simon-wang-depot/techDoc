@@ -1,0 +1,153 @@
+I had little experience on GIT before. The more deep knowledge becomes more and more critial currently. the following is track how i learn git.
+
+preliminary:
+. create a account on githut
+. create new repository
+. install git client on my local
+. learn basic git repository knowledge
+
+basic git knowledge
+. workflow
+	your local repository consists of 3 trees maintained by git. the first one is 'working directory' which holds the actual files.
+	the second one is the 'Index or called Stage' which acts as a staging area and finally the 'Head' which points to the last commit you've made.
+
+. branch
+	Branches are used to develop features isolated from each other. the master branch is the 'Default' branch when you create a repository. use other
+	branches for development and merge them back to the master branch upon completion.
+	
+	
+start from beginning
+how should you start to create your own repository depends on the what you have right now. below are the various use cases
+. join an existed project. clone from the existing remote repository
+		.git clone https://....
+		.modify some files
+		.git add filename
+		.git commit filename -m "modification"
+		.git push -u origin master
+		
+. start a new project. you are the first person check in staff or you are the administrator of the repository
+	.make sure the remote repository has been created
+	.create your own local repository
+		.create a new project folder
+		.cd to the folder
+		.git init
+		.git add filename
+		.git commit filename -m "first check in"
+		.git remote add origin remoteURL
+		.git push -u origin master
+	
+	
+. branch management
+	.create a new branch and switch to it and git HEAD points to the new branch
+		git checkout -b devBranch orginalBranch == git branch devBranch + git checkout devBranch   //create branch on local repo
+		git push origin devBranch //push devBranch to remote git server
+		
+	.check current branch HEAD points to
+		git branch || git branch -v
+	.to do some modification
+		git add files
+		git commit -a -m "check the fix"
+		git push origin devBranch
+	.merge the change back to master
+		git checkout master  #HEAD is point to master branch
+		git merge devBranch
+	.after branch merged to master, branch can be deleted
+		git branch -d devBranch #just delete the branch in your local repository
+		git push origin --delete devBranch  #delete branch from your remote repository
+		 
+		 
+	Git merge strategy is different from other version control. it does a simple 3-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two.
+	Besides git merge, we can merge two branches by rebasing. The approach just applies all the commits in one branch to another branch you like to rebase on. eg.
+		.git checkout devBranch
+		.git rebase master #modify devBranch by applying the commits to master branch
+		
+		First, set head devBranch. then apply the commits on devBranch from master. therefore, devBranch has the same base now. we can easily merge both branches.
+		
+		.git checkout master
+		.git merge devBranch
+		
+		the benefit of rebase over merge is that rebasing makes a cleaner history.
+		
+	
+	branch reference:
+	https://www.atlassian.com/git/tutorials/syncing/git-remote
+	http://stackoverflow.com/questions/2003505/delete-a-git-branch-both-locally-and-remotely
+		
+		
+		
+Sep 20, 2017
+the best practise of GIT is everyone works on his own feature branch. then someone maybe create the branch. later on you'd like 
+to join to fix something or you create a branch from git management site and you like to have the code on your local to develop sth.
+below shows 3 ways to checkout code from the existing remote branch
+1. git checkout -b bigbug origin/bigbug
+
+2. git checkout -t origin/bigbug
+
+3. git fetch
+   git checkout bigbug
+
+The base for the checkout command is:
+
+git checkout --[options] <local branch> <remote>/<tracked branch>
+When you perform a git checkout -b bigbug origin/bigbug you are saying to Git to execute two commands:
+
+git branch bigbug origin/bigbug (git creates a branch with name bigbug and setup tracking to origin/bigbug)
+git checkout bigbug (git changes your workspace to match bigbug branch)
+When you perform git checkout -t origin/bigbug you are saying to Git to execute the same two commands above. The difference is that it will name the local branch with the same name of the remote branch (in the first example you can change the name of the remote branch to whichever you want). The -t options is the same of --track.
+
+In your last command, when you run: git fetch you tell Git to lookup on the remote repositories for new commits, branches, etc. Then when you run git checkout bigbug you tell it to change the workspace to match the bigbug branch. If you have a local branch with that name, Git will checkout it. If not, it will look the remote branches to one matching name and then create a local branch with the same name.
+
+So, when you use one or another it depends of what you want. Most of the time they will work as the same (except in the last example, when you already have a local branch with the same name of a remote branch). The most importante thing is to know exactly what the command and options do and combine them accordingly to what you want.   
+	
+
+Oct 11,2017
+==============================
+merge 2 projects into gitbucket master
+1. clone remote master to local
+2. copy the latest code to override local filesystem
+3. clone remote master to local again, but different folder
+. git branch -a #list all branch in remote server
+4. git checkout featurebranch
+5. git branch #find the current branch
+
+Nov. 27, 2017
+==============================
+today, i help ivr team to move code from aero github to bitbucket in jeppensen. the requirement is to keep the exact same branches.
+the workflow i did is below:
+. create ivr_move folder to store aero git code
+. git clone https://....aeroinfo git repositories
+. git checkout feature/ivrs_move   #switch to another branch
+. git pull origin feature/ivrs_move    #pull branch code from branch
+
+. create ivr_jp_move folder to store jeppesen bitbucket code
+. git init
+. copy aero local code of github master branch into jeppesen local folder
+. git add .
+. git commit -m "Initial Commit"
+. git remote add origin https://Simon.Wang%40aeroinfo.com@dat.jeppesen.com/git/scm/da/dsdtp-ivr-repo.git
+. git push -u origin master    #migrate aero master branch into jeppesen master branch
+
+. git branch -b feature/ivrs_move    #create feature branch at local
+. git push -u origin feature/ivrs_move	#push local feature branch to bitbucket
+. copy local feature source code in aero github to jepp feature branch
+. git add .
+. git commit -m "migrate feature branch"
+. git push origin feature/ivrs_move
+Done!!!
+
+Feb 06, 2018
+===========================
+in big project how to merge code from my own branch dev_simon to develop branch
+. the goal of the approach is to make zero impact on server side code. therefore, I gonna make all merge process on my local first. 
+	then push to git remote server. instead of directly merging code from dev_simon to develop branch. i will do code merge from develop branch
+	to dev_simon branch on my local. then i have the synched code with develop branch with my own code in dev_simon branch. now, i can easily merge code from dev_simon to develop branch to remote server without conflict. some of principles must be remembered. when we switch branch, we must make sure all the changes have been committed or starshed. otherwise, it might have conflict. ok, let's start to merge my code from branch dev_simon to develop branch.
+	
+	1. on dev_simon branch, commit all changes to remote dev_simon repository (or starsh)
+	2. switch to develop branch by git checkout develop
+	3. fetch and prune new changes
+	4. in sourcetree, we can see the number of pull in develop branch and pull the modifications
+	5. now i have develop branch code on my local
+	6. switch back to dev_simon branch and on develop branch right click to select merge develop to current branch
+	7. after merge, on my local i have code from both develop and dev_simon branches
+	8. it is good candidate to merge back to remote develop branch.
+	

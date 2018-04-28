@@ -1,0 +1,9 @@
+Ruby basic for chef
+1. data type, operations, and conversion
+2. variables
+	$var  #global variables
+	@@var #class variables
+	@var  #instance variables
+	variable scope  #global,class,instance, method, block
+3. 	
+	

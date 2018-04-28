@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+    Ingest-App:
+        image: dendit01d.jeppesen.com:8082/ingest/ingest:latest
+        container_name: ingest_devops
+        restart: always
+        labels:
+          io.rancher.scheduler.affinity:host_label: "app_ingest=Ingest"
+          io.rancher.scheduler.global: "true"
+          io.rancher.container.pull_image: always
+        ports:
+          - 7060:8080
+        
+    Ingest-DB:
+        image: dendit01d.jeppesen.com:8082/ingest/ingest-database:latest
+        container_name: ingest_db_devops
+        restart: always
+        labels:
+          io.rancher.scheduler.affinity:host_label: "app_ingest=Ingest"
+          io.rancher.scheduler.global: "true"
+          io.rancher.container.pull_image: always
+        ports:
+          - 5433:5432
+		environment:
+		  - POSTGRESQL_USER=ingest
+		  - POSTGRESQL_PASSWORD=password
+		  - POSTGRESQL_DATABASE=ingest
+  

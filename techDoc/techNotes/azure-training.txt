@@ -1,0 +1,119 @@
+Aug 22 Azure training
+===============================
+two portals:
+manage.azure.com
+https://portal.azure.com
+
+general architecture
+
+apps
+
+services
+
+infrastructure
+
+
+
+====
+resource group is the resources having the same lifecycle items
+. one recource must be included in one group
+. permission can be applied on resource group level
+
+VM has multiple tires -- basic tire, standard tire(with various series NV-series is on preview phase)
+
+training pdf
+https://opsgilityweb.blob.core.windows.net/il-course-developingazuresolutionsjava/Developing-Azure-Solutions-Students-Slides-5-Day-Java_0816.pdf
+
+Lab guide: http//bit.ly/2bZunpX
+psw: !DevJava0816
+
+
+VM user:simonwang
+password for portal: gmail password
+password of remote: demo@pass123
+
+windwos use remote connection to connect to VM
+hack firewall
+goto windows start menu type: 2FA one (admin mode) ->system setting ->manage logon experience->user and password
+
+afternoon:
+VM windwos shutdown still charging. run stop from menu
+
+
+
+availability set vs scale set
+scale set does availability set automatically
+
+
+resource group contains all the resource defined under it. so delete the group, the resource underneath will be cascadely deleted.
+
+what we have done.
+. create a vm
+. created resource group
+. created another two vms
+. created v-network to connect them
+. create load balance
+
+aug. 23, 2016
+====================
+student slides
+bit.ly/2biZqJs
+
+review cassandra and java queue(active queue)
+
+blobstorage333
+a5dbFCym0yQjblyoSOChNDouYJ/cEv/GRpISis8b3x8LfefNjRBpUb7pCLIT/WKoKGoH3Us12kLt7HOJYi99UA==
+
+
+pwd: demo@pass123
+user: EntAdmin/EntAdmin@simonwangdepotgmail.onmicrosoft.com
+
+
+Aug 24
+----
+kudu implements continue integration -- auto publishing to different slots
+.
+.oAuth2 authentication
+webapp clientID: 78d874db-9a32-4daf-86af-f75f6cdf6039
+secret key: x7bFaD1+UNn4kUToDOblgP9XuTDwHk/i7ArejqmyErc=
+
+ad graph: https://graph.windows.net/6173742b-2840-415a-b4c2-d96419fa5e63
+
+cloud service can only handle stateless 
+
+Aug 15, 2016
+=====================
+Azure Message 
+benefits of asynch
+service bus messaging  -- support transaction
+queue,topic,event hub, relays, notification hub, 
+
+create esb
+https://manage.windowsazure.com/simonwangdepotgmail.onmicrosoft.com#Workspaces/ServiceBusExtension/Namespace/myservicebus11_7e95b3f0-c865-4452-a063-d092466abdba/QuickStart
+service bus https://azure.microsoft.com/en-us/documentation/articles/service-bus-java-how-to-use-queues/
+event hub   https://azure.microsoft.com/en-us/documentation/articles/event-hubs-overview/ 
+
+service relay only for WCF -- it is for legacy system
+
+
+VM vs. container
+microservice can auto scale
+fabric service
+stateless microservice and stateful -- stateful service has its own db or memory to store the status.
+cloud vs. fabric service
+https://azure.microsoft.com/en-us/documentation/articles/service-fabric-cloud-services-migration-differences/
+
+Aug 26, 2016
+======================
+fabric service is built on fabric cluster. 
+services can be partitioned for scale out.
+service can choose its own partition scheme. 
+replicas automatically scale out & in on cluster changes.
+
+
+survey page: https://www.instant.ly/s/BBC9b/nav#p/186a0
+
+
+azure container and apache mesos, docker swarm,
+
+azure function and elix new feature of azure

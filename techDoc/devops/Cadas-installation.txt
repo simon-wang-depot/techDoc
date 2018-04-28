@@ -1,0 +1,57 @@
+register no cost dev subscription https://developers.redhat.com/auth/realms/rhd/protocol/openid-connect/registrations?client_id=web&redirect_uri=https%3A%2F%2Fdevelopers.redhat.com%2F%2Fconfirmation&state=ee2d4359-a22a-4d55-8f59-f0e39f7e3072&nonce=2a6da290-a2ec-4317-93f3-27a2c525675e&response_mode=fragment&response_type=code
+
+
+Steps of Cadas installation
+
+. Install Oracle virtualBox
+. Install vagrant
+. Create working folder eg. mkdir -r /myWks/myvb
+. Download vagrantfile, customized yum repository and install-cadas shell script from bitbucket
+. Go to the folder where vagrantfile located
+. Execute vagrant up
+	the first time you might see sync folder not be auto mounted.
+	run $> vagrant vbguest
+		$> vagrant reload --provision
+	It takes minutes to complete the installation.
+
+
+Vagrant installtion
+
+. make sure powershell version is 5.0+
+	$psversiontable
+/***. msconfig -> startup -> uncheck cylancePROTECT
+. vagrant plugin install vagrant-vbguest
+	#install guest additions   https://github.com/dotless-de/vagrant-vbguest 
+. vagrant up  #work perfect
+
+
+modify 
+	/var/cadas-aimdb/database/data/pg_hba.conf to add 'host	all	all	10.0.2.2/32	trust'
+	
+
+. vagrant cannot properly up or reload after vagrant halt
+		work round --> vagrant up, vagrant vbguest, vagrant reload
+======================================================================================
+
+cadas installation process
+
+. install vagrant  https://www.vagrantup.com/docs/cli/init.html 
+	find proper vagrant image from http://vagrantcloud.com
+	vagrant init iamseth/rhel-7.3  #need to subscribe
+	vagrant init bento/centos-7.2
+	
+. set share folder in vagrant 
+	check: df -kh
+	
+. cp /media/sf_centos/epel-testing.repo /etc/yum.repos.d   #store custom repository
+
+. install jre must be the version in artifacts
+. install postgresql and postgis	
+#. usermod -aG root postgres
+
+. run cadas_aimdb_installation_manager.sh script
+
+
+
+  
+	

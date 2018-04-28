@@ -1,0 +1,74 @@
+recent learn
+spring security architecture
+https://spring.io/guides/topicals/spring-security-architecture/
+
+spring-mybatis
+http://www.mybatis.org/mybatis-3/sqlmap-xml.html
+
+jackson
+
+angular4
+https://www.youtube.com/watch?v=htPYk6QxacQ
+
+great website for primeng datatable https://github.com/primefaces/primeng/issues/1046
+
+========May 20
+quick review-->
+git
+postgre db and sql tool
+swagger
+lombok
+http://www.baeldung.com/intro-to-project-lombok
+springBoot
+springData
+
+
+July 17
+python --AI
+spring microservice
+
+
+july 20
+linux account and env setup
+create microservice prj+swagger
+check into git
+deploy to cloud server
+
+http://www.vancouvergunrange.ca/documents/Student%20Guide/Student%20Guide.pdf 
+
+Sep 20,2017
+======
+currently work in devops team, but limited information has been given to me. don't know what to do
+
+Sep 25, 2017
+java 9 has been published recently. i reviewed the new features since java7+. it brings me some thoughts of 
+. what most useful new features in each release version?
+. how multicore vs. multiThread implemented in java 7+
+. how implement functional program in java 8 and what the usecases are
+
+Nov. 14,2017
+. lately working on DTP project as devops. having learned lots of bash script skills. also getting familiar to various of linux OS. especially Centos which is the officially enterprise level linux which won on Debian OS. Vagrant and docker as well.
+
+===========================
+java base image
+.openjdk is correct java developer
+.oracle container registry 
+.private image and push to private repository
+. azul/zulu-openjdk
+
+package maven plugin for docker
+-->docker-maven-plugin //https://github.arun-gupta/docker-java-sample
+
+multi-container application
+-->docker compose
+	define and run multiple container applications
+	config defined in one or more files
+		-docker-compose.yml
+		-docker-compose.override.yml
+		-multiple files specified using -f
+	single command to manage all services
+	great for dev, staging and CI
+
+
+
+

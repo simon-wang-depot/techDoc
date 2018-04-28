@@ -1,0 +1,124 @@
+TRAVEL IN RENTON
+
+sep 28, 2015
+due to forgetting boeing windows password, it blocks me to connect to boeing edgeNet wifi
+
+inm3277703
+call back
+
+the way of using network cable. plugin cable-->go any page and wait for the boeing login page/ 
+or directly go to connect.boeing.com-->token authentication and leave the page open
+-->network connected and able to acess internet.
+
+Sep 29, 2015
+Expectation:
+. user to access source code server 
+. user to access jira
+. ahm knowledge transfer
+. 
+
+. how vpn to boeing network from aero vpn
+. what are other places required windows password?
+
+
+Have Done:
+required software from Jessica Le
+STS: https://spring.io/tools/sts/all
+
+I use jdk7
+JKD: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+I use tomcat 7
+Apache Tomcat: https://tomcat.apache.org/download-70.cgi
+
+Doing:
+SQL Developer tool: http://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html
+
+I use this to tail the local log file:
+Cygwin: https://cygwin.com/install.html
+
+
+change password
+https://wsso-accmgmt-prod.web.boeing.com/ChangePassword.aspx
+
+
+summary of Sep 29. 2015
+. Aeroinfo finally created Boeing account for me
+. require ahm svn repository server account
+. go to subclipse checkout code
+
+
+what to learn tmr
+. customized jsp tag
+. 
+
+
+Sep 30,2015
+. even though i have a wire to connect network, Boeing still requires authentication through page
+https://login.edgenet.boeing.com/dana-na/auth/url_default/welcome.cgi
+
+. spring-camel example
+http://examples.javacodegeeks.com/enterprise-java/apache-camel/apache-camel-spring-example/
+
+quick start ahm application on the local
+. checkout source code from svn
+. config eclipse to ignore those jsp,xml,javascript validation etc.
+. copy ahm.conf file to ClassicAhm/conf folder where db configuration is set
+. configure tomcat set env varaible
+	add this at the end
+	-DAHMROOT="C:\simon\workspaces\ClassicAhm" -Dlog4j.configuration=file:"C:\simon\workspaces\ClassicAhm\conf\log4j.WebServer.properties" -DWebBaseDir="C:\simon\workspaces\AhmWeb\WebContent\classic" -XX:PermSize=512m -XX:MaxPermSize=512m
+. add ojdbc6.jar into tomcat ENV classpath
+. set 
+
+
+ahm has lots of customized tag. i have to review the concept of tag.
+tag, iterateTag, and simpleTag
+https://tomcat.apache.org/taglibs/site/tutorial.html
+
+jakarta-taglibs help
+http://attic.apache.org/projects/jakarta-taglibs.html
+
+
+Extjs
+http://docs.sencha.com/extjs/4.2.2/#/guide/application_architecture
+
+Oct 1, 2015
+. ask Jessica go through the code how the request is hanldered 
+. help files of jakarta taglib like request, response, session etc.
+. extjs 4.2
+. how the code has been oraganized
+. how to access jira
+. how to read sharepoint
+. code check in process -- server list and synch psw
+
+
+
+jira 
+http://mob-jira.cs.boeing.com:8080/login.jsp
+account: swang 
+psw: boeing windows password (Aero1nfoaa)
+
+confluence
+http://mob-confluence-cie.cs.boeing.com:8090/login.action?os_username=swang
+account: swang
+psw: boeing windows password
+
+
+===========================
+what to bring next week
+. ear phone 
+
+notes of walking through code
+. each shadow maps to a table. like AhmAirplane class map table is ahm_airplane
+. 5 servers ---> dev env., ift -- test env,    freeze -- pre prod (before 2 weeks, we deploy to freeze), prod, prod beta
+. todo: if i have permission to access frz.myboeingfleet.com
+. //home --> resource
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,170 @@
+. learn basic ruby syntax https://docs.chef.io/ruby.html
+
+. chef node/chef client supports windows. but chef server only supports linux.
+. once chefdk installed, in effect, chef workstation created.
+	on workstation, use chef commandline to create repo
+		chef repo create chef-repo
+		cd chef-repo
+		vim hello.rb
+		chef-apply hello.rb
+		
+. setup to node
+	on workstation create cookbook folder structure
+	mkdir cookbook
+	cd cookbook
+	chef generate cookbook cookbookName
+	chef generate template parentFolderName templateName
+	update recipe filename
+	using chef-client --local-mode to tested
+	
+	shared chef server: manage.chef.io/login
+	  . organization --> starter kit -->download into chef workstation and unzip
+	  . https://supermarket.chef.io/cookbooks
+	  . knife download site //download existing cookbook
+	  . knife cookbook upload //upload cookbooks into server
+					//setup network vim /etc/network
+					
+	  . knife node list  //check node
+	  . knife node show nodename
+	  . ifnet
+	  
+	manage the nodes
+		. find ip of nodes, 
+		
+	the connection server with nodes set from workstation
+		exec in node
+		. knife bootstrap 192.... --ssh-user simon --ssh-password 'hello' --sudo --use-sudo-passwrd --node-name cnode1 --run-list 'recipe[learn_chef_apache2]'   //bootstrap nodes per ip addresses
+		
+	
+	
+
+
+
+. install oracle virtualbox which is the simulator of future chef node env. it means what OS env
+	in chef nodes, the VB should set the compatible OS. therefore, it ensures the same command
+	in chef receipe can be run on nodes after tested on VB.
+	. first of all, turn on VT(Virtual Technology - x, VT-d) from BIOS
+	. install oracle virtualbox tool. Note MUST be installed to the DEFAULT folder(/program files/...). 
+		otherwise, the virtual machine cannot startup
+		
+//set root password
+sudo -i
+sudo passwd root
+
+
+. install chefdk
+	dpkg -i packageName  //install chef dev kit
+	chef  //verify chefdk installed correctly
+	
+. create chef-repo to hold all receipes
+	receipe is built by ruby but limited ruby understanding is ok
+	
+	syntax
+	resourceTag resourceName do
+		...
+	end
+. create a cookbook folder to generate cookbook structure
+	chef generate cookbook cookbookName
+	//tree to check the folder structure
+	chef generate template cookbookName templateName
+	
+		
+. run receipe
+	chef-apply filename.rb
+	
+	
+	
+=====Sep 12, 2017
+chef webina
+
+======Sep 13, 2017
+chefDK workflow -- it elabrates the workflow of cookbook development https://docs.chef.io/about_chefdk.html
+the official unofficial getting started with chefDK guild: https://tcotav.github.io/chefdk_getting_started.html 
+good start to write recipe: https://www.digitalocean.com/community/tutorials/configuration-management-101-writing-chef-recipes
+
+
+problems:
+. kitchen create failed because of ssh communication
+. 
+
+
+====Sep 21, 2017
+recipe
+resource
+attribute -- 
+Node attributes are so important that several cookbook patterns rely on them. Node attributes allow for reusable cookbooks, because they make them configurable and flexible. Usually, a cookbook defines default values for the attributes it uses. These default values are placed on Ruby files, inside the cookbook’s attributes folder. This folder is not created upon the cookbook creation, so you have to create it manually. Then you can create a Ruby file, e.g. default.rb, and define attributes like this:
+
+default['index_message'] = 'Hello World!'
+Attributes can then be overriden in a number of ways. They can be defined in several places: the nodes themselves; attribute files; recipes; environments and roles. Ohai gathers a host of node attributes automatically: Kernel data; CPU data; platform data; Fully qualified domain names (FQDN); among many other data. Environment (i.e. Dev, QA, Production) attributes are useful to specify data such as connection strings and settings that change from environment to environment. Roles can also have attributes, but even Adam Jacob, Chef’s co-founder, discourages (see the comments) this option.
+
+Sep 22, 2017
+i am still struggling chef env. installation. below are what i have tried
+. installed virtualbox and vagrant in windows 7
+. vagrant init virtualbox-image-file-names
+. vagrant up //the vm was created but the vm could not be started up for some reasons
+. so i thought 2 reasons might be the issues. 1. company firewall blocked port sharing  2.host OS windows7 doesn't support well
+. then i tried to install this set of tools above of another vm.
+	the infrastructure looks like windows 7 (host OS)-->guest ubuntu VM -->nested guest ubuntu VM
+	after did some research, VM supports nested VM only on 32-bit VM because 64-bit VM needs extension CPU (HT-x/d), but VM
+	doesn't support. it means the first layer of VM doesn't support extension cpu function. so the nested guest VM cannot be
+	64bit.
+	
+	Explanation:::
+	[Theoretically yes.  But if your underlying hardware does not support hardware-assisted virtualization like intel VTX technology, then you will not get a lot of work done on this nested VM environment, because it will be way too slow to operate.
+
+	For example, Hardware runs HostOS, HostOS runs GuestOS, and GuestOs runs NestedGuestOS. Now a single page fault or system call in the nestedGuestOS has to go through 2 levels of "world switches" one of the GuestOS and possibly of the hostOS which actually knows where the real pages are mapped.
+
+	Do you see how this would be a problem ? Your NestedGuestOS would almost always be stuck in a syscall or page fault...
+
+	So for practical reasons, this won't be useful unless you have hardware-assisted virtualization enabled.]
+	
+Sep 26, 2017
+=======================================================
+$ chef env configuration overview
+1. setup env
+		chef env is composed of 3 parts. a.chef server  b.workstation  c.nodes
+		the most difficult installation of chef env is chef server installation. we can have vagrant as the simulator or leverage
+		free enterprise chef server as experiment purpose.
+		a. installation of workstation
+			$>apt-get install curl & curl -L https://www.opscode.com/chef/install.sh | sudo bash
+			//verify if chef-client installed correctly
+			$> chef-client -v  //it is installed at /opt/chef folder
+		b. install chef server (here will not focus on it) and get server keys for workstation
+			once chef-server installed, we need to create an organization and user who is the developer and going to work on
+			the chef cookbooks (he/she has the workstation). 
+			after everything ready, go to chef-server UI and Administration>starter Kit>Download starter kit
+			the starter kit is the start point for workstations to write cookbook and upload into chef server.
+			--verify whether your workstation is able to communicate to chef server.
+				$ chef-repo>knife ssl check
+				$ chef-repo>knife ssl fetch  --auto download certificate from chef server
+				
+				$ chef-repo>knife client list/knife node list
+				if cannot, it might be ssl handshaking issue. to fix the issue, we can
+				either download the trust-cert.cr file from chef-server or modify your
+				chef-repo/.chef/knife.rb file to add ssl_verify_mode :verify_none to 
+				ignore the ssl check
+			
+2. process of making cookbook
+	. create a cookbook and add recipe into it
+	. upload cookbook to chef server
+	. configure runlist in nodes
+	. run chef-client at the target nodes
+	
+$ chef devops 
+in this chapter, the topic will be focus on how to develop a real cookbook.
+. simpliest dev env. is just to install chefdk
+	run chef-apply to run a recipe
+	run chef-client --local_model to run cookbook
+	ref : https://docs.chef.io/quick_start.html
+	
+	overview of chef DK: https://docs.chef.io/about_chefdk.html
+		. berkshell -- chef cookbook dependency manager
+		
+	
+			
+			
+
+QUESTIONS:
+=================================
+. how ssl communicated.
+. 
