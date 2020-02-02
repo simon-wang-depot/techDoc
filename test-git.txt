@@ -1,4 +1,4 @@
 the best practise of git check in are:
 . make sure the merge action happens only at local, not directly on the remote repository
-	1. switch to working branch eg. git checkout dev-simon
+	1. switch to working branch eg. git checkout dev-simon //add comments
 	
